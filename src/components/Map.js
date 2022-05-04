@@ -1,27 +1,27 @@
-import { useMemo } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import './Map.css'
+// import ReactMapGL from "react-map-gl";
+// import { useState } from "react";
+// import './Map.css'
 
-export default function MapPage() {
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: "AIzaSyBkuv8jNfhlAE3iWTyQYdHGUYwZac0Sam0",
-    });
+// function Map() {
+//     const [viewport, setViewport] = useState ({
+//         width: '100%',
+//         height: '100%',
+//         latitude: 37.7577,
+//         longitude: -122.4376,
+//         zoom: 11
+//     });
 
-    if (!isLoaded) return <div>Loading...</div>;
-    return <Map/>;
-}
+//     return (
+//         <div className="maps">
+//             <ReactMapGL
+//             mapStyle="mapbox://styles/mapbox/streets-v9"
+//             mapboxAccessToken="pk.eyJ1IjoiaGltZWxzYWhhMjkiLCJhIjoiY2twcTVxbXVvMGE4bjJvcXA0dnZyNWcwNSJ9.-8pbVSB0GmhzZT13bnH9Vw"
+//             {...viewport}
+//             onViewportChange={(nextViewport) => setViewport(nextViewport)}
+//             ></ReactMapGL>   
+//         </div>
+        
+//     );
+// }
 
-function Map() {
-
-    const center = useMemo(() => ({lat: 44, lng: -80}), []);
-
-    return (
-        <GoogleMap 
-            zoom={10} 
-            center={center} 
-            mapContainerClassName="maps"
-        >
-            <Marker position={center}/>
-        </GoogleMap>
-    );
-}
+// export default Map;
