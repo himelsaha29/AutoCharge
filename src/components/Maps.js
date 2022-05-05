@@ -43,40 +43,61 @@ async function renderChargers() {
     charger.forEach(charger => {
 
         try {
-            let allObj = JSON.parse(JSON.stringify(charger));
+            var allObj = JSON.parse(JSON.stringify(charger));
 
-            let usageType = JSON.parse(JSON.stringify(allObj.UsageType));
-            let isPayAtLocation = usageType.IsPayAtLocation;
-            let isMembershipRequired = usageType.IsMembershipRequired;
-            let isAccessKeyRequired = usageType.IsAccessKeyRequired;
+            var usageType = JSON.parse(JSON.stringify(allObj.UsageType));
+            var isPayAtLocation = usageType.IsPayAtLocation;
+            var isMembershipRequired = usageType.IsMembershipRequired;
+            var isAccessKeyRequired = usageType.IsAccessKeyRequired;
 
-            let statusType = JSON.parse(JSON.stringify(allObj.StatusType));
-            let isOperational = statusType.IsOperational;
+            var statusType = JSON.parse(JSON.stringify(allObj.StatusType));
+            var isOperational = statusType.IsOperational;
 
-            let dateLastVerified = JSON.parse(JSON.stringify(allObj.DateLastVerified));
-
-
-
-            let addressInfo= JSON.parse(JSON.stringify(allObj.AddressInfo));
-            let addressLine1 = addressInfo.AddressLine1;
-            let addressLine2 = addressInfo.AddressLine2;
-            let town = addressInfo.Town;
-            let stateOrProvince = addressInfo.StateOrProvince;
-
-            let country = JSON.parse(JSON.stringify(addressInfo.Country));
-            let countryTitle = country.Title;
-
-            let latitude = addressInfo.Latitude;
-            let longitude = addressInfo.Longitude;
-            let email = addressInfo.ContactEmail;
+            var dateLastVerified = JSON.parse(JSON.stringify(allObj.DateLastVerified));
 
 
 
+            var addressInfo= JSON.parse(JSON.stringify(allObj.AddressInfo));
+            var addressLine1 = addressInfo.AddressLine1;
+            var addressLine2 = addressInfo.AddressLine2;
+            var town = addressInfo.Town;
+            var stateOrProvince = addressInfo.StateOrProvince;
+
+            var country = JSON.parse(JSON.stringify(addressInfo.Country));
+            var countryTitle = country.Title;
+            
+
+            var latitude = addressInfo.Latitude;
+            var longitude = addressInfo.Longitude;
+            var email = addressInfo.ContactEmail;
 
 
 
+            var connections = JSON.parse(JSON.stringify(allObj.Connections))[0];
+            var connectionType = JSON.parse(JSON.stringify(connections.ConnectionType));
+            var formalName = connectionType.FormalName;
+            var actualConnectionName = connectionType.Title;
 
-            //console.log(usgtp.IsPayAtLocation);
+            var level = JSON.parse(JSON.stringify(connections.Level));
+            var isFastChargeCapable = level.IsFastChargeCapable;
+            var actualLevel = level.Title;
+
+
+            var amps = connections.Amps;
+            var voltage = connections.Voltage;
+            var powerKW = connections.PowerKW;
+
+
+            var current = JSON.parse(JSON.stringify(connections.CurrentType));
+            var currentType = current.Description;
+
+            var points = allObj.NumberOfPoints;
+
+
+            
+
+
+            
         } catch (error) {
             console.log(error);
         }
