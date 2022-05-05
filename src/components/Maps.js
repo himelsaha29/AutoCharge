@@ -41,7 +41,45 @@ async function renderChargers() {
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
     charger.forEach(charger => {
-        console.log(charger);
+
+        try {
+            let allObj = JSON.parse(JSON.stringify(charger));
+
+            let usageType = JSON.parse(JSON.stringify(allObj.UsageType));
+            let isPayAtLocation = usageType.IsPayAtLocation;
+            let isMembershipRequired = usageType.IsMembershipRequired;
+            let isAccessKeyRequired = usageType.IsAccessKeyRequired;
+
+            let statusType = JSON.parse(JSON.stringify(allObj.StatusType));
+            let isOperational = statusType.IsOperational;
+
+            let dateLastVerified = JSON.parse(JSON.stringify(allObj.DateLastVerified));
+
+
+
+            let addressInfo= JSON.parse(JSON.stringify(allObj.AddressInfo));
+            let addressLine1 = addressInfo.AddressLine1;
+            let addressLine2 = addressInfo.AddressLine2;
+            let town = addressInfo.Town;
+            let stateOrProvince = addressInfo.StateOrProvince;
+
+            let country = JSON.parse(JSON.stringify(addressInfo.Country));
+            let countryTitle = country.Title;
+
+            let latitude = addressInfo.Latitude;
+            let longitude = addressInfo.Longitude;
+            let email = addressInfo.ContactEmail;
+
+
+
+
+
+
+
+            //console.log(usgtp.IsPayAtLocation);
+        } catch (error) {
+            console.log(error);
+        }
     });
 
 }
