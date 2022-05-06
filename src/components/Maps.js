@@ -3,6 +3,7 @@ import './Map.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import * as React from 'react';
 import mapboxgl from 'mapbox-gl';
+import icon from './marker.png';
 
 var mapRef= null;
 function Maps() {
@@ -36,7 +37,7 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + 'maxresults=1&countrycode=IN';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + 'maxresults=1';
     try {
         let res = await fetch(url);
         return await res.json();
@@ -49,6 +50,7 @@ async function renderChargers() {
     let charger = await getChargers();
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
+
     charger.forEach(charger => {
 
         try{
@@ -105,11 +107,20 @@ async function renderChargers() {
             var latitude = addressInfo.Latitude;
             var longitude = addressInfo.Longitude;
 
-            const marker = new mapboxgl.Marker()
+            var el = document.createElement('div');
+            el.className = 'marker';
+            el.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/f/fb/Map_pin_icon_green.svg)`;
+            el.style.width = '20px';
+            el.style.height = '20px';
+            el.addEventListener('click', () => {
+                window.alert("hello");
+            });
+
+            const marker = new mapboxgl.Marker(el)
                 .setLngLat([longitude, latitude])
                 .addTo(mapRef.current.getMap());
             
-            console.log("LONGITUDE ====== " + longitude);
+                
         } catch (error) {
             console.log(error);
 
