@@ -1,15 +1,28 @@
 import Map, { Marker } from 'react-map-gl';
 import './Map.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
-
+import * as React from 'react';
+import mapboxgl from 'mapbox-gl';
 
 function Maps() {
 
-    renderChargers();
+    const mapRef = React.useRef();
+    const onMapLoad = React.useCallback(() => {
+        console.log("ZOOM IS :  == " + mapRef.current.getMap().getMinZoom());
+        const marker = new mapboxgl.Marker()
+        .setLngLat([30.5, 50.5])
+        .addTo(mapRef.current.getMap());
+      }, []);
+
+   
+
+    //renderChargers();
 
     return (
         <div className='maps'>
             <Map
+                ref={mapRef}
+                onLoad={onMapLoad}
                 initialViewState={{
                 longitude: -73,
                 latitude: 45,
@@ -18,7 +31,7 @@ function Maps() {
                 mapboxAccessToken="pk.eyJ1IjoiaGltZWxzYWhhMjkiLCJhIjoiY2twcTVreDQ2MTZ1ejJ2bXdka3FkZGU3YyJ9.9o1-3a4vZ7lagQhlWzTg-A"
                 mapStyle="mapbox://styles/himelsaha29/cl2rcfulj000315lncutyy62e"
             >
-                <Marker latitude={45} longitude={-73} offsetTop={-50}  offsetLeft={-25} >
+                <Marker latitude={45} longitude={-73}>
                 </Marker>
             </Map>;
         </div>
@@ -38,6 +51,7 @@ async function getChargers() {
 
 async function renderChargers() {
     let charger = await getChargers();
+
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
     charger.forEach(charger => {
@@ -140,6 +154,10 @@ async function renderChargers() {
     });
 
 }
+
+// function getMap() {
+//     const {current: map} = useMap();
+// }
 
 
 export default Maps;
