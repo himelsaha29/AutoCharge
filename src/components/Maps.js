@@ -109,9 +109,6 @@ async function renderChargers() {
 
             var el = document.createElement('div');
             el.className = 'marker';
-            el.style.backgroundImage = `url(https://upload.wikimedia.org/wikipedia/commons/f/fb/Map_pin_icon_green.svg)`;
-            el.style.width = '20px';
-            el.style.height = '20px';
             el.addEventListener('click', () => {
                 window.alert("hello");
             });

@@ -5,9 +5,12 @@
 }
 
 .marker {
+    height: 15px;
+    width: 15px;
     display: block;
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    background-image: url('pins.svg');
     padding: 0;
-    }
+}
