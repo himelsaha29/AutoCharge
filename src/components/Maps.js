@@ -37,7 +37,7 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + 'maxresults=1';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=100&countrycode=US';
     try {
         let res = await fetch(url);
         return await res.json();
