@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="11" height="11" viewBox="0 0 11 11">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.112" y1="0.285" x2="0.97" y2="0.82" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#1eff4c"/>
+      <stop offset="1" stop-color="#2ee960"/>
+    </linearGradient>
+    <clipPath id="clip-iPhone_X_XS_11_Pro_1">
+      <rect width="11" height="11"/>
+    </clipPath>
+  </defs>
+  <g id="iPhone_X_XS_11_Pro_1" data-name="iPhone X/XS/11 Pro – 1" clip-path="url(#clip-iPhone_X_XS_11_Pro_1)">
+    <path id="Subtraction_1" data-name="Subtraction 1" d="M5,10.656a1.083,1.083,0,0,1-.518-.132L.518,8.352A.979.979,0,0,1,0,7.5V3.156A.978.978,0,0,1,.518,2.3L4.482.132a1.086,1.086,0,0,1,1.037,0L9.482,2.3A.978.978,0,0,1,10,3.156V7.5a.978.978,0,0,1-.518.852L5.519,10.525A1.083,1.083,0,0,1,5,10.656ZM6.05,1.574a.605.605,0,0,0-.422.212c-.021.021-2.1,2.069-2.578,2.726a.982.982,0,0,0-.237.557c0,.327.311.453.56.555l.065.027c.21.088.47.189.659.262l.089.034L3.2,8.039a1,1,0,0,0-.093.377.355.355,0,0,0,.164.324.389.389,0,0,0,.21.062A.6.6,0,0,0,3.9,8.587C3.924,8.568,6,6.521,6.48,5.863a.994.994,0,0,0,.239-.557c0-.329-.311-.455-.561-.557l-.065-.027c-.287-.118-.647-.256-.75-.3l.985-2.089a1,1,0,0,0,.093-.378.356.356,0,0,0-.163-.323A.393.393,0,0,0,6.05,1.574Z" transform="translate(0.366 0.11)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

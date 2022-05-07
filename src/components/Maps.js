@@ -37,7 +37,7 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=100&countrycode=US';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US';
     try {
         let res = await fetch(url);
         return await res.json();
@@ -50,6 +50,8 @@ async function renderChargers() {
     let charger = await getChargers();
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
+
+
 
     charger.forEach(charger => {
 
@@ -107,7 +109,7 @@ async function renderChargers() {
             var latitude = addressInfo.Latitude;
             var longitude = addressInfo.Longitude;
 
-            var el = document.createElement('div');
+            var el = document.createElement('p1');
             el.className = 'marker';
             el.addEventListener('click', () => {
                 window.alert("hello");
@@ -115,7 +117,7 @@ async function renderChargers() {
 
             const marker = new mapboxgl.Marker(el)
                 .setLngLat([longitude, latitude])
-                .addTo(mapRef.current.getMap());
+                .addTo(mapRef.current.getMap())
             
                 
         } catch (error) {
