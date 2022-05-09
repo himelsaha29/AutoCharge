@@ -2,17 +2,52 @@ import Map, { Marker } from 'react-map-gl';
 import './Map.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import * as React from 'react';
-import mapboxgl from 'mapbox-gl';
 import icon from './marker.png';
 
 var mapRef= null;
+
+
 function Maps() {
+
 
     mapRef = React.useRef();
     const onMapLoad = React.useCallback(() => {
         // console.log("ZOOM IS :  == " + mapRef.current.getMap().getMinZoom());
     
-      }, []);
+        ////
+
+
+        mapRef.current.getMap().loadImage(
+            'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+            (error, image) => {
+                if (error) throw error;
+                mapRef.current.getMap().addImage('custom-marker', image);
+
+                mapRef.current.getMap().addSource('points', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                            {
+                                'type': 'Feature',
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [-77.03238901390978, 38.913188059745586]
+                                }
+                            }
+                        ]
+
+                    }   
+                });
+                
+             
+                
+            }
+        );
+
+        ////
+
+    }, []);
 
     renderChargers();
 
@@ -37,7 +72,7 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=10&countrycode=CA';
     try {
         let res = await fetch(url);
         return await res.json();
@@ -47,6 +82,10 @@ async function getChargers() {
 }
 
 async function renderChargers() {
+
+    var featurePoints = [];
+    var globalCounter = 0;
+
     let charger = await getChargers();
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
@@ -87,7 +126,7 @@ async function renderChargers() {
             var addressLine2 = addressInfo.AddressLine2;
             var town = addressInfo.Town;
             var stateOrProvince = addressInfo.StateOrProvince;
-            console.log(addressLine1 + " " + addressLine2 + " " + town + " " + stateOrProvince);
+            //console.log(addressLine1 + " " + addressLine2 + " " + town + " " + stateOrProvince);
             var email = addressInfo.ContactEmail;
         } catch (error) {
             addressLine1 = "N/A";
@@ -100,7 +139,6 @@ async function renderChargers() {
         var country = JSON.parse(JSON.stringify(addressInfo.Country));
         try{
             var countryTitle = country.Title;
-            console.log(countryTitle);
         } catch (error) {
             countryTitle = "N/A";
         }
@@ -109,15 +147,27 @@ async function renderChargers() {
             var latitude = addressInfo.Latitude;
             var longitude = addressInfo.Longitude;
 
-            var el = document.createElement('p1');
-            el.className = 'marker';
-            el.addEventListener('click', () => {
-                window.alert("hello");
-            });
+            // var el = document.createElement('p1');
+            // el.className = 'marker';
+            // el.addEventListener('click', () => {
+            //     window.alert("hello");
+            // });
 
-            const marker = new mapboxgl.Marker(el)
-                .setLngLat([longitude, latitude])
-                .addTo(mapRef.current.getMap())
+            // const marker = new mapboxgl.Marker(el)
+            //     .setLngLat([longitude, latitude])
+            //     .addTo(mapRef.current.getMap())
+
+
+
+            var longLat = [];
+            longLat[0] = longitude;
+            longLat[1] = latitude;
+            console.log("FEATURE LONGLATS == " + longLat);
+            featurePoints[globalCounter] = longLat;
+            globalCounter++;
+
+            console.log("FEATURE POINTS = = " + featurePoints);
+
             
                 
         } catch (error) {
@@ -169,6 +219,34 @@ async function renderChargers() {
 
     }
     });
+
+
+    const mySource = mapRef.current.getMap().getSource('points');
+    console.log("get source == " + mySource);
+    mySource.setData({
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-77.03238901390978, 38.913188059745586]
+                
+            }
+        }]
+    });
+
+    
+    // Add a symbol layer
+    mapRef.current.getMap().addLayer({
+        'id': 'pointsSymbol',
+        'type': 'symbol',
+        'source': 'points',
+        'layout': {
+            'icon-image': 'custom-marker',
+
+        }
+    });
+
 
 }
 
