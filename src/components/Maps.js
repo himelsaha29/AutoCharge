@@ -6,16 +6,17 @@ import icon from './marker.png';
 
 var mapRef= null;
 
+var geojson = {
+    "type": "FeatureCollection",
+    "features": []
+};
+
 
 function Maps() {
 
 
     mapRef = React.useRef();
     const onMapLoad = React.useCallback(() => {
-        // console.log("ZOOM IS :  == " + mapRef.current.getMap().getMinZoom());
-    
-        ////
-
 
         mapRef.current.getMap().loadImage(
             'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
@@ -24,24 +25,18 @@ function Maps() {
                 mapRef.current.getMap().addImage('custom-marker', image);
 
                 mapRef.current.getMap().addSource('points', {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': [
-                            {
-                                'type': 'Feature',
-                                'geometry': {
-                                    'type': 'Point',
-                                    'coordinates': [-77.03238901390978, 38.913188059745586]
-                                }
-                            }
-                        ]
-
-                    }   
+                    "type": "geojson",
+                    "data": geojson
                 });
-                
-             
-                
+
+                mapRef.current.getMap().addLayer({
+                    'id': 'pointsSymbol',
+                    'type': 'symbol',
+                    'source': 'points',
+                    'layout': {
+                        'icon-image': 'custom-marker',
+                    }
+                });
             }
         );
 
@@ -72,7 +67,8 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=10&countrycode=CA';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US';
+
     try {
         let res = await fetch(url);
         return await res.json();
@@ -162,10 +158,19 @@ async function renderChargers() {
             var longLat = [];
             longLat[0] = longitude;
             longLat[1] = latitude;
-            console.log("FEATURE LONGLATS == " + longLat);
             featurePoints[globalCounter] = longLat;
             globalCounter++;
 
+
+            var marker = {
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [longitude, latitude]
+                }
+              };
+            
+            geojson.features.push(marker);
             console.log("FEATURE POINTS = = " + featurePoints);
 
             
@@ -222,37 +227,10 @@ async function renderChargers() {
 
 
     const mySource = mapRef.current.getMap().getSource('points');
-    console.log("get source == " + mySource);
-    mySource.setData({
-        "type": "FeatureCollection",
-        "features": [{
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-77.03238901390978, 38.913188059745586]
-                
-            }
-        }]
-    });
-
-    
-    // Add a symbol layer
-    mapRef.current.getMap().addLayer({
-        'id': 'pointsSymbol',
-        'type': 'symbol',
-        'source': 'points',
-        'layout': {
-            'icon-image': 'custom-marker',
-
-        }
-    });
+    mySource.setData(geojson);
 
 
 }
-
-// function getMap() {
-//     const {current: map} = useMap();
-// }
 
 
 export default Maps;
