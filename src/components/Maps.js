@@ -2,7 +2,14 @@ import Map, { Marker } from 'react-map-gl';
 import './Map.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import * as React from 'react';
-import icon from './marker.png';
+import icon from './marker.svg';
+import mapboxgl from 'mapbox-gl';
+
+// The following is required to stop "npm build" from transpiling mapbox code.
+// notice the exclamation point in the import.
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 var mapRef= null;
 
@@ -16,10 +23,14 @@ function Maps() {
 
 
     mapRef = React.useRef();
+    // let img = new Image(15,15);
+    // img.onload = ()=> mapRef.current.getMap().addImage('icon', img);
+    // img.src = icon;
+
     const onMapLoad = React.useCallback(() => {
 
         mapRef.current.getMap().loadImage(
-            'https://docs.mapbox.com/mapbox-gl-js/assets/custom_marker.png',
+            'https://raw.githubusercontent.com/saintlyvermin/auxiliary/main/marker.png',
             (error, image) => {
                 if (error) throw error;
                 mapRef.current.getMap().addImage('custom-marker', image);
@@ -37,6 +48,30 @@ function Maps() {
                         'icon-image': 'custom-marker',
                     }
                 });
+
+                mapRef.current.getMap().on('click', 'pointsSymbol', (e) => {
+                    
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                     
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                     
+                    new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML("hello")
+                    .addTo(mapRef.current.getMap());
+                    });
+                     
+                    // Change the cursor to a pointer when the mouse is over the places layer.
+                    mapRef.current.getMap().on('mouseenter', 'pointsSymbol', () => {
+                        mapRef.current.getMap().getCanvas().style.cursor = 'pointer';
+                    });
+                     
+                    // Change it back to a pointer when it leaves.
+                    mapRef.current.getMap().on('mouseleave', 'pointsSymbol', () => {
+                        mapRef.current.getMap().getCanvas().style.cursor = '';
+                    });
             }
         );
 
@@ -67,7 +102,7 @@ function Maps() {
 
 
 async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US';
+    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000';
 
     try {
         let res = await fetch(url);
