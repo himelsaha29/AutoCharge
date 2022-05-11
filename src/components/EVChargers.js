@@ -1,5 +1,5 @@
-import Map, { Marker } from 'react-map-gl';
-import './Map.css';
+import Maps, { Marker } from 'react-map-gl';
+import './EVChargers.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import * as React from 'react';
 import icon from './marker.svg';
@@ -12,6 +12,8 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 var mapRef= null;
+var markerCounter = 0;
+var markerMap = undefined;
 
 var geojson = {
     "type": "FeatureCollection",
@@ -19,9 +21,9 @@ var geojson = {
 };
 
 
-function Maps() {
+function EVChargers() {
 
-
+    markerMap = new Map();
     mapRef = React.useRef();
     // let img = new Image(15,15);
     // img.onload = ()=> mapRef.current.getMap().addImage('icon', img);
@@ -59,7 +61,7 @@ function Maps() {
                      
                     new mapboxgl.Popup()
                     .setLngLat(coordinates)
-                    .setHTML("hello")
+                    .setHTML(markerMap.get(e.features[0].properties.description[16]))
                     .addTo(mapRef.current.getMap());
                     });
                      
@@ -83,7 +85,7 @@ function Maps() {
 
     return (
         <div className='maps'>
-            <Map
+            <Maps
                 ref={mapRef}
                 onLoad={onMapLoad}
                 initialViewState={{
@@ -95,7 +97,7 @@ function Maps() {
                 mapStyle="mapbox://styles/himelsaha29/cl2rcfulj000315lncutyy62e"
             >
             
-            </Map>;
+            </Maps>;
         </div>
     );
 }
@@ -114,8 +116,6 @@ async function getChargers() {
 
 async function renderChargers() {
 
-    var featurePoints = [];
-    var globalCounter = 0;
 
     let charger = await getChargers();
 
@@ -124,6 +124,8 @@ async function renderChargers() {
 
 
     charger.forEach(charger => {
+
+        var chargerInfo = [];
 
         try{
         var allObj = JSON.parse(JSON.stringify(charger));
@@ -174,48 +176,6 @@ async function renderChargers() {
             countryTitle = "N/A";
         }
 
-        try{
-            var latitude = addressInfo.Latitude;
-            var longitude = addressInfo.Longitude;
-
-            // var el = document.createElement('p1');
-            // el.className = 'marker';
-            // el.addEventListener('click', () => {
-            //     window.alert("hello");
-            // });
-
-            // const marker = new mapboxgl.Marker(el)
-            //     .setLngLat([longitude, latitude])
-            //     .addTo(mapRef.current.getMap())
-
-
-
-            var longLat = [];
-            longLat[0] = longitude;
-            longLat[1] = latitude;
-            featurePoints[globalCounter] = longLat;
-            globalCounter++;
-
-
-            var marker = {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [longitude, latitude]
-                }
-              };
-            
-            geojson.features.push(marker);
-            console.log("FEATURE POINTS = = " + featurePoints);
-
-            
-                
-        } catch (error) {
-            console.log(error);
-
-            // issue
-        }
-
 
         var connections = JSON.parse(JSON.stringify(allObj.Connections))[0];
         var connectionType = JSON.parse(JSON.stringify(connections.ConnectionType));
@@ -258,6 +218,44 @@ async function renderChargers() {
     } catch(error) {
 
     }
+
+    try{
+        var latitude = addressInfo.Latitude;
+        var longitude = addressInfo.Longitude;
+
+        
+
+        var marker = {
+            type: 'Feature',
+            properties: {
+                description: markerCounter.toString()
+            },
+            geometry: {
+              type: 'Point',
+              coordinates: [longitude, latitude]
+            }
+        };
+        
+        geojson.features.push(marker);
+
+        
+            
+    } catch (error) {
+        console.log(error);
+
+        // issue
+    }
+
+    chargerInfo = [isPayAtLocation, isMembershipRequired, isAccessKeyRequired, isOperational, 
+        dateLastVerified, addressLine1, addressLine2, town, stateOrProvince, email, 
+        countryTitle, latitude, longitude, formalName, actualConnectionName, amps, voltage, 
+        powerKW, isFastChargeCapable, actualLevel, currentType, points];
+
+
+    markerMap.set(markerCounter.toString(), chargerInfo);
+
+    markerCounter++;
+
     });
 
 
@@ -268,4 +266,4 @@ async function renderChargers() {
 }
 
 
-export default Maps;
+export default EVChargers;

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Map from './components/Maps';
+import EVChargers from './components/EVChargers';
 
 function App() {
   return (
-    <Map/>
+    <EVChargers/>
   );
 }
 
