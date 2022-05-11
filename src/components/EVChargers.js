@@ -61,7 +61,7 @@ function EVChargers() {
                      
                     new mapboxgl.Popup()
                     .setLngLat(coordinates)
-                    .setHTML(markerMap.get(e.features[0].properties.description[16]))
+                    .setHTML(parseChargerInfo(markerMap.get(e.features[0].properties.description)))
                     .addTo(mapRef.current.getMap());
                     });
                      
@@ -263,6 +263,22 @@ async function renderChargers() {
     mySource.setData(geojson);
 
 
+}
+
+
+function parseChargerInfo(info) {
+
+    for (var i = 0; i < info.length; i++) {
+        if (info[i] == false) {
+            info[i] = "No";
+        } else if (info[i] == true) {
+            info[i] = "Yes";
+        } else if (info[i] == undefined) {
+            info[i] = "N/A";
+        }
+    }
+
+    return info;
 }
 
 
