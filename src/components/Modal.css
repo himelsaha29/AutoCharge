@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+
+body.active-modal {
+    overflow-y: hidden;
+}
+
+.btn-modal {
+    padding: 10px 20px;
+    display: block;
+    margin: 100px auto 0;
+    font-size: 18px;
+}
+
+.modal,
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+
+.overlay {
+    background: rgba(49, 49, 49, 0.0);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #000000;
+    padding: 14px 28px;
+    border-radius: 10px;
+    width: 90vw;
+    height: auto;
+
+
+
+}
+
+.close-modal {
+    position: relative;
+    padding: 7px 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    width: auto;
+    height: auto;
+    font-size: 1.2vw;
+    background: #134911;
+    background: -moz-linear-gradient(45deg, #134911 0%, #13900f 25%, #15b436 50%, #1ad27f 75%, #00ffe9 100%);
+    background: -webkit-linear-gradient(45deg, #134911 0%, #13900f 25%, #15b436 50%, #1ad27f 75%, #00ffe9 100%);
+    background: linear-gradient(45deg, #134911 0%, #13900f 25%, #15b436 50%, #1ad27f 75%, #00ffe9 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f09433', endColorstr='#bc1888', GradientType=1);
+}
+
+h2.white-text {
+    color: #33ff6b;
+    text-align: center;
+    font-size: 1.2vw;
+    font-family: 'Outfit', sans-serif;
+}
+
+p.white-text {
+    color: white;
+    text-align: center;
+    font-size: 1.2vw;
+    font-family: 'Outfit', sans-serif;
+}
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 11%;
+    height: 15%;
+    padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

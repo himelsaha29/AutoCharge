@@ -41,3 +41,8 @@
   width: 100%;
   height: 100vh;
 }
+
+@font-face {
+  font-family: 'Outfit';
+  src: local('Outfit'), url(./fonts/Outfit.ttf) format('truetype');
+}
