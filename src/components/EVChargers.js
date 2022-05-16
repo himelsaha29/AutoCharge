@@ -6,6 +6,13 @@ import icon from './marker.svg';
 import mapboxgl from 'mapbox-gl';
 import Modal from './Modal';
 import "./Modal.css";
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import { createMuiTheme } from '@material-ui/core/styles';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { CssBaseline } from '@mui/material';
+import { Buttons } from './';
+
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -13,9 +20,16 @@ import "./Modal.css";
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
+
+const theme = createMuiTheme({
+    palette: {
+      type: "dark"
+    }
+})
+
 var mapRef = null;
 var markerCounter = 0;
-var markerMap = undefined;
+var markerMap = new Map();
 
 
 var geojson = {
@@ -39,12 +53,18 @@ function EVChargers() {
 
 
     if (modal) {
-        document.body.classList.add('active-modal')
+        document.body.classList.add('active-modal');
+        // window.onload = function() {
+        //     document.getElementById('loading').style.filter = 'blur(2px)';
+
+        // };
+        
     } else {
-        document.body.classList.remove('active-modal')
+        document.body.classList.remove('active-modal');
+        //document.getElementById('root').style.filter = 'blur(0px)';
     }
 
-    markerMap = new Map();
+    
     mapRef = React.useRef();
 
 
@@ -74,9 +94,14 @@ function EVChargers() {
 
                     const coordinates = e.features[0].geometry.coordinates.slice();
 
+                    
                     toggleModal();
 
+                    console.log("value = " + markerMap.get("1"));
+
                     populateChargerPopUpInfo(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
+
+                    console.log(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
 
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -127,29 +152,31 @@ function EVChargers() {
 
             {modal && (
                 <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
-                    <div className="modal-content">
+                    <div onClick={toggleModal} class="overlay" ></div>
+
+
+                    <div className="modal-content" >
                         <div>
                             <div class="row">
                                 <div class="column">
                                     <h2 class="white-text">Current type</h2>
-                                    <p class="white-text">{chargerPopUpInfo[20]}</p>
-                                </div>
-                                <div class="column">
-                                    <h2 class="white-text">Fast charge</h2>
                                     <p class="white-text">{chargerPopUpInfo[18]}</p>
                                 </div>
                                 <div class="column">
-                                    <h2 class="white-text">Amps</h2>
-                                    <p class="white-text">{chargerPopUpInfo[15]}</p>
-                                </div>
-                                <div class="column">
-                                    <h2 class="white-text">Voltage</h2>
+                                    <h2 class="white-text">Fast charge</h2>
                                     <p class="white-text">{chargerPopUpInfo[16]}</p>
                                 </div>
                                 <div class="column">
+                                    <h2 class="white-text">Amps</h2>
+                                    <p class="white-text">{chargerPopUpInfo[13]}</p>
+                                </div>
+                                <div class="column">
+                                    <h2 class="white-text">Voltage</h2>
+                                    <p class="white-text">{chargerPopUpInfo[14]}</p>
+                                </div>
+                                <div class="column">
                                     <h2 class="white-text">Power</h2>
-                                    <p class="white-text">{chargerPopUpInfo[17]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[15]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Operational</h2>
@@ -157,15 +184,15 @@ function EVChargers() {
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Points</h2>
-                                    <p class="white-text">{chargerPopUpInfo[21]}</p>
-                                </div>
-                                <div class="column">
-                                    <h2 class="white-text">Level</h2>
                                     <p class="white-text">{chargerPopUpInfo[19]}</p>
                                 </div>
                                 <div class="column">
+                                    <h2 class="white-text">Level</h2>
+                                    <p class="white-text">{chargerPopUpInfo[17]}</p>
+                                </div>
+                                <div class="column">
                                     <h2 class="white-text">Connection name</h2>
-                                    <p class="white-text">{chargerPopUpInfo[13]}, {chargerPopUpInfo[14]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[12]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Pay at location</h2>
@@ -185,31 +212,33 @@ function EVChargers() {
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Area</h2>
-                                    <p class="white-text">{chargerPopUpInfo[5]}, {chargerPopUpInfo[6]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[5]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Town</h2>
-                                    <p class="white-text">{chargerPopUpInfo[7]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[6]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Province/State</h2>
-                                    <p class="white-text">{chargerPopUpInfo[8]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[7]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Country</h2>
-                                    <p class="white-text">{chargerPopUpInfo[10]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[9]}</p>
                                 </div>
                                 <div class="column">
                                     <h2 class="white-text">Contact</h2>
-                                    <p class="white-text">{chargerPopUpInfo[9]}</p>
+                                    <p class="white-text">{chargerPopUpInfo[8]}</p>
                                 </div>
                             </div>
                         </div>
 
 
-                        <button className="close-modal" onClick={toggleModal}>
-                            Close
-                        </button>
+                        <MuiThemeProvider theme={theme} onClick={toggleModal}>
+                            <CssBaseline>
+                                <Buttons />
+                            </CssBaseline>
+                        </MuiThemeProvider>
                     </div>
 
                 </div>
@@ -278,7 +307,6 @@ async function renderChargers() {
                 var addressLine2 = addressInfo.AddressLine2;
                 var town = addressInfo.Town;
                 var stateOrProvince = addressInfo.StateOrProvince;
-                //console.log(addressLine1 + " " + addressLine2 + " " + town + " " + stateOrProvince);
                 var email = addressInfo.ContactEmail;
             } catch (error) {
                 addressLine1 = "N/A";
@@ -301,12 +329,27 @@ async function renderChargers() {
             try {
                 var formalName = connectionType.FormalName;
                 var actualConnectionName = connectionType.Title;
-                var amps = connections.Amps;
-                var voltage = connections.Voltage;
-                var powerKW = connections.PowerKW;
+
             } catch (error) {
                 formalName = "N/A";
                 actualConnectionName = "N/A";
+            }
+            try {
+                var amps = connections.Amps;
+                var voltage = connections.Voltage;
+                var powerKW = connections.PowerKW;
+
+                if (amps != undefined && amps != "N/A") {
+                    amps = amps + " A";
+                }
+                if (voltage != undefined && voltage != "N/A") {
+                    voltage = voltage + " V";
+                }
+                if (powerKW != undefined && powerKW != "N/A") {
+                    powerKW = powerKW + " kW";
+                }
+
+            } catch (error) {
                 amps = "N/A";
                 voltage = "N/A";
                 powerKW = "N/A";
@@ -365,9 +408,11 @@ async function renderChargers() {
             // issue
         }
 
+        
+
         chargerInfo = [isPayAtLocation, isMembershipRequired, isAccessKeyRequired, isOperational,
-            dateLastVerified, addressLine1, addressLine2, town, stateOrProvince, email,
-            countryTitle, latitude, longitude, formalName, actualConnectionName, amps, voltage,
+            dateLastVerified, checkAddress(addressLine1, addressLine2), town, stateOrProvince, email,
+            countryTitle, latitude, longitude, checkConnection(formalName, actualConnectionName), amps, voltage,
             powerKW, isFastChargeCapable, actualLevel, currentType, points];
 
 
@@ -388,9 +433,9 @@ async function renderChargers() {
 function parseChargerInfo(info) {
 
     for (var i = 0; i < info.length; i++) {
-        if (info[i] == false) {
+        if (info[i] === false) {
             info[i] = "No";
-        } else if (info[i] == true) {
+        } else if (info[i] === true) {
             info[i] = "Yes";
         } else if (info[i] == undefined) {
             info[i] = "N/A";
@@ -400,5 +445,42 @@ function parseChargerInfo(info) {
     return info;
 }
 
+
+function checkAddress (addressLine1, addressLine2) {
+    var address = "";
+    if(addressLine1 != undefined && addressLine1 != "N/A") {
+        address = addressLine1;
+    }
+    if(addressLine2 != undefined && addressLine2 != "N/A") {
+        if(address != "") {
+            address = address + ", " + addressLine2;
+        } else {
+            address = addressLine2;
+        }
+    }
+    if(address == "") {
+        address = "N/A";
+    }
+    return address;
+}
+
+
+function checkConnection (formalName, actualConnectionName) {
+    var conn = "";
+    if(formalName != undefined && formalName != "N/A") {
+        conn = formalName;
+    }
+    if(actualConnectionName != undefined && actualConnectionName != "N/A") {
+        if(conn != "") {
+            conn = conn + ", " + actualConnectionName;
+        } else {
+            conn = actualConnectionName;
+        }
+    }
+    if(conn == "") {
+        conn = "N/A";
+    }
+    return conn;
+}
 
 export default EVChargers;
