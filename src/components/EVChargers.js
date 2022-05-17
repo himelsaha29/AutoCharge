@@ -8,7 +8,7 @@ import Modal from './Modal';
 import "./Modal.css";
 import Button from '@mui/material/Button';
 import { createMuiTheme } from '@material-ui/core/styles';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@mui/material';
 import { Buttons } from './';
 
@@ -23,13 +23,12 @@ const useStyles = makeStyles({
         transform: 'translate(-0%, -50%)',
         borderWidth: 5,
         borderColor: '#ff5f5f'
-
     },
     btn: {
         border: 'none',
         marginTop: 20,
-        marginBottom: -4,
-        borderRadius: 6,
+        marginBottom: -10,
+        borderRadius: 10,
         paddingTop: 7,
         paddingBottom: 7,
         paddingLeft: 10,
@@ -189,7 +188,7 @@ function EVChargers() {
 
             {modal && (
                 <div className="modal">
-                    <div onClick={toggleModal} class="overlay" ></div>
+                    <div class="overlay" ></div>
 
 
                     <div className="modal-content" >
@@ -271,9 +270,11 @@ function EVChargers() {
                         </div>
 
 
-                        <div className={classes.container}>
-                            <button onClick={toggleModal} className={`${classes.btn} ${classes.btn1}`}>Close</button>
-                        </div>
+                        <MuiThemeProvider theme={theme}>
+                            <CssBaseline>
+                                <Buttons onClick={toggleModal} />
+                            </CssBaseline>
+                        </MuiThemeProvider>
                     </div>
 
                 </div>

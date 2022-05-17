@@ -9,7 +9,7 @@ const useStyles = makeStyles({
         top: '50%',
         transform: 'translate(-50%, -50%)',
         textAlign: 'center',
-        fontSize: '1.2vw'
+
     },
     btn: {
         border: 'none',
@@ -19,6 +19,8 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         color: '#fff',
         backgroundSize: '200%',
+        fontSize: '1.0vw',
+        fontFamily: "Outfit",
         transition: '0.4s',
         '&:hover': {
             backgroundPosition: 'right'
@@ -29,13 +31,13 @@ const useStyles = makeStyles({
     }
 })
 
-export default function Buttons() {
+export default function Buttons(props) {
     const classes = useStyles();
     return (
 
 
         <div className={classes.container}>
-            <Button className={`${classes.btn} ${classes.btn1}`}>Close</Button>
+            <Button className={`${classes.btn} ${classes.btn1}`} onClick={props.onClick}>Close</Button>
         </div>
 
 
