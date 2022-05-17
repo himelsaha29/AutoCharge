@@ -47,6 +47,10 @@ body.active-modal {
     border-radius: 10px;
     width: 90vw;
     height: auto;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 
 
 

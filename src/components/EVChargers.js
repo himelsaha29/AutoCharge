@@ -6,12 +6,47 @@ import icon from './marker.svg';
 import mapboxgl from 'mapbox-gl';
 import Modal from './Modal';
 import "./Modal.css";
-import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import { createMuiTheme } from '@material-ui/core/styles';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { CssBaseline } from '@mui/material';
 import { Buttons } from './';
+
+
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+    container: {
+        position: 'relative',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-0%, -50%)',
+        borderWidth: 5,
+        borderColor: '#ff5f5f'
+
+    },
+    btn: {
+        border: 'none',
+        marginTop: 20,
+        marginBottom: -4,
+        borderRadius: 6,
+        paddingTop: 7,
+        paddingBottom: 7,
+        paddingLeft: 10,
+        paddingRight: 10,
+        fontSize: '1.0vw',
+        cursor: 'pointer',
+        color: '#fff',
+        backgroundSize: '200%',
+        transition: '0.4s',
+        '&:hover': {
+            backgroundPosition: 'right'
+        }
+    },
+    btn1: {
+        backgroundImage: 'linear-gradient(45deg, #134911, #15b436, #2483bd)'
+    }
+})
 
 
 // The following is required to stop "npm build" from transpiling mapbox code.
@@ -23,7 +58,7 @@ mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 
 const theme = createMuiTheme({
     palette: {
-      type: "dark"
+        type: "dark"
     }
 })
 
@@ -38,6 +73,8 @@ var geojson = {
 };
 
 function EVChargers() {
+
+    const classes = useStyles();
 
     const [chargerPopUpInfo, setChargerPopUpInfo] = React.useState([]);
 
@@ -58,13 +95,13 @@ function EVChargers() {
         //     document.getElementById('loading').style.filter = 'blur(2px)';
 
         // };
-        
+
     } else {
         document.body.classList.remove('active-modal');
         //document.getElementById('root').style.filter = 'blur(0px)';
     }
 
-    
+
     mapRef = React.useRef();
 
 
@@ -94,7 +131,7 @@ function EVChargers() {
 
                     const coordinates = e.features[0].geometry.coordinates.slice();
 
-                    
+
                     toggleModal();
 
                     console.log("value = " + markerMap.get("1"));
@@ -234,11 +271,9 @@ function EVChargers() {
                         </div>
 
 
-                        <MuiThemeProvider theme={theme} onClick={toggleModal}>
-                            <CssBaseline>
-                                <Buttons />
-                            </CssBaseline>
-                        </MuiThemeProvider>
+                        <div className={classes.container}>
+                            <button onClick={toggleModal} className={`${classes.btn} ${classes.btn1}`}>Close</button>
+                        </div>
                     </div>
 
                 </div>
@@ -408,7 +443,7 @@ async function renderChargers() {
             // issue
         }
 
-        
+
 
         chargerInfo = [isPayAtLocation, isMembershipRequired, isAccessKeyRequired, isOperational,
             dateLastVerified, checkAddress(addressLine1, addressLine2), town, stateOrProvince, email,
@@ -446,38 +481,38 @@ function parseChargerInfo(info) {
 }
 
 
-function checkAddress (addressLine1, addressLine2) {
+function checkAddress(addressLine1, addressLine2) {
     var address = "";
-    if(addressLine1 != undefined && addressLine1 != "N/A") {
+    if (addressLine1 != undefined && addressLine1 != "N/A") {
         address = addressLine1;
     }
-    if(addressLine2 != undefined && addressLine2 != "N/A") {
-        if(address != "") {
+    if (addressLine2 != undefined && addressLine2 != "N/A") {
+        if (address != "") {
             address = address + ", " + addressLine2;
         } else {
             address = addressLine2;
         }
     }
-    if(address == "") {
+    if (address == "") {
         address = "N/A";
     }
     return address;
 }
 
 
-function checkConnection (formalName, actualConnectionName) {
+function checkConnection(formalName, actualConnectionName) {
     var conn = "";
-    if(formalName != undefined && formalName != "N/A") {
+    if (formalName != undefined && formalName != "N/A") {
         conn = formalName;
     }
-    if(actualConnectionName != undefined && actualConnectionName != "N/A") {
-        if(conn != "") {
+    if (actualConnectionName != undefined && actualConnectionName != "N/A") {
+        if (conn != "") {
             conn = conn + ", " + actualConnectionName;
         } else {
             conn = actualConnectionName;
         }
     }
-    if(conn == "") {
+    if (conn == "") {
         conn = "N/A";
     }
     return conn;
