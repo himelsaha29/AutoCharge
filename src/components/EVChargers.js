@@ -130,23 +130,10 @@ function EVChargers() {
 
                     const coordinates = e.features[0].geometry.coordinates.slice();
 
-
                     toggleModal();
-
-                    console.log("value = " + markerMap.get("1"));
 
                     populateChargerPopUpInfo(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
 
-                    console.log(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
-
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-
-                    new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(parseChargerInfo(markerMap.get(e.features[0].properties.description)))
-                        .addTo(mapRef.current.getMap());
                 });
 
 
@@ -165,7 +152,9 @@ function EVChargers() {
 
     }, []);
 
-    renderChargers();
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=500&countrycode=US');
+    //renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US');
+    //renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000');
 
     return (
 
@@ -189,7 +178,6 @@ function EVChargers() {
             {modal && (
                 <div className="modal">
                     <div class="overlay" ></div>
-
 
                     <div className="modal-content" >
                         <div>
@@ -230,6 +218,9 @@ function EVChargers() {
                                     <h2 class="white-text">Connection name</h2>
                                     <p class="white-text">{chargerPopUpInfo[12]}</p>
                                 </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="column">
                                     <h2 class="white-text">Pay at location</h2>
                                     <p class="white-text">{chargerPopUpInfo[0]}</p>
@@ -247,6 +238,10 @@ function EVChargers() {
                                     <p class="white-text">{chargerPopUpInfo[4]}</p>
                                 </div>
                                 <div class="column">
+                                    <h2 class="white-text">Contact</h2>
+                                    <p class="white-text">{chargerPopUpInfo[8]}</p>
+                                </div>
+                                <div class="column">
                                     <h2 class="white-text">Area</h2>
                                     <p class="white-text">{chargerPopUpInfo[5]}</p>
                                 </div>
@@ -261,10 +256,6 @@ function EVChargers() {
                                 <div class="column">
                                     <h2 class="white-text">Country</h2>
                                     <p class="white-text">{chargerPopUpInfo[9]}</p>
-                                </div>
-                                <div class="column">
-                                    <h2 class="white-text">Contact</h2>
-                                    <p class="white-text">{chargerPopUpInfo[8]}</p>
                                 </div>
                             </div>
                         </div>
@@ -285,8 +276,8 @@ function EVChargers() {
 }
 
 
-async function getChargers() {
-    let url = 'https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000';
+async function getChargers(link) {
+    let url = link
 
     try {
         let res = await fetch(url);
@@ -296,10 +287,9 @@ async function getChargers() {
     }
 }
 
-async function renderChargers() {
+async function renderChargers(link) {
 
-
-    let charger = await getChargers();
+    let charger = await getChargers(link);
 
     console.log("startttttttttttttttttttttttttttttttttttttttttt");
 
@@ -439,7 +429,7 @@ async function renderChargers() {
 
 
         } catch (error) {
-            console.log(error);
+            console.log('marker = ' + error);
 
             // issue
         }
@@ -475,6 +465,8 @@ function parseChargerInfo(info) {
             info[i] = "Yes";
         } else if (info[i] == undefined) {
             info[i] = "N/A";
+        } else if (info[i].toString().toLowerCase().includes('not specified')) {
+            info[i] = "Unknown";
         }
     }
 
