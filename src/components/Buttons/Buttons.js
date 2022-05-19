@@ -37,7 +37,7 @@ export default function Buttons(props) {
 
 
         <div className={classes.container}>
-            <Button className={`${classes.btn} ${classes.btn1}`} onClick={props.onClick}>Close</Button>
+            <Button className={`${classes.btn} ${classes.btn1}`} onClick={props.onClick}>{props.btn}</Button>
         </div>
 
 

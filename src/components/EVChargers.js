@@ -263,7 +263,7 @@ function EVChargers() {
 
                         <MuiThemeProvider theme={theme}>
                             <CssBaseline>
-                                <Buttons onClick={toggleModal} />
+                                <Buttons onClick={toggleModal} btn="Close" />
                             </CssBaseline>
                         </MuiThemeProvider>
                     </div>
