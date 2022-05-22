@@ -11,7 +11,7 @@
 }
 
 .main-header {
-    background-color: #040c04;
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
