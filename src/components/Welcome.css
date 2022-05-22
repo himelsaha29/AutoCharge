@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
 
+
+@font-face {
+    font-family: 'montserrat_light_alt1light';
+    src: url('../fonts/montserrat-light-alt1-webfont.woff2') format('woff2'),
+         url('../fonts/montserrat-light-alt1-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 .main {
     background-color: #ffffff;
 }
@@ -54,11 +64,6 @@
     text-align: left;
 }
 
-.inner>text{
-    font-size: 0%,
-}
-
-
 .text{
     position: relative;
     font-size: 3vw;
@@ -76,3 +81,12 @@
 .green{
     color: #32fc75;
 }
+
+.header{
+    position: absolute;
+    font-family: 'montserrat_light_alt1light', sans-serif;
+    top:  0;
+    left: 1%;
+}
+
+

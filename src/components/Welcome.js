@@ -54,10 +54,14 @@ function Welcome() {
 
     return (
         <header className="main-header">
+
+            <p className='header'>AUTO<em>CHARGE</em></p>
+
+
             <div className='inner'>
 
                 <div className='text_container'>
-                    <p className='text'>Find <span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
+                    <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
                 </div>
 
                 <div className={classes.container}>
@@ -65,6 +69,8 @@ function Welcome() {
                 </div>
                 
             </div>
+
+
         </header>
 
     );
