@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+
 .main {
     background-color: #ffffff;
 }
@@ -12,6 +14,7 @@
 
 .main-header {
     position: relative;
+    pointer-events:none;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -40,7 +43,35 @@
 
 
 .inner{
-    position: absolute;
+    position: relative;
+    flex-direction: column;
+    display : flex;
+    flex: 1;
+    align-items: left;
     margin-top: 45vh;
     margin-left: -67vw;
+    pointer-events:none;
+    text-align: left;
+}
+
+.inner>text{
+    font-size: 0%,
+}
+
+
+.text{
+    position: relative;
+    font-size: 3vw;
+    text-align: left;
+    align-self: flex-start;
+    
+    font-family: 'Outfit', sans-serif;
+}
+
+.text_container{
+    text-align: left;
+    align-self: flex-start;
+    align-items: left;
+    margin-bottom: 10%;
+    
 }

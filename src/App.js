@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='App-header'>
       <Particles />
-      <div className='main-header'>
+      <div className='outer'>
         <Welcome/>
       </div>
     </div>

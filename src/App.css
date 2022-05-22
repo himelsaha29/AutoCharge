@@ -15,7 +15,9 @@
 
 .App-header {
   background-color: #040c04;
+  pointer-events:auto;
 }
+
 
 .App-link {
   color: #61dafb;

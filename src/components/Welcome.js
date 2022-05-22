@@ -19,18 +19,21 @@ const useStyles = makeStyles({
         left: '50%',
         top: '50%',
         transform: 'translate(-50%, -50%)',
-        textAlign: 'center',
+        textAlign: 'left',
+         
 
     },
     btn: {
         border: 'none',
-        paddingLeft: "4.2vh",
-        paddingRight: "4.2vh",
+        paddingLeft: 25.2,
+        paddingRight: 25.2,
         paddingTop: 7,
         paddingBottom: 7,
         cursor: 'pointer',
+        textTransform: "none",
         color: '#fff',
         backgroundSize: '200%',
+        pointerEvents: 'auto',
         fontSize: '80%',
         fontFamily: "Outfit",
         transition: '0.4s',
@@ -39,25 +42,30 @@ const useStyles = makeStyles({
         }
     },
     btn1: {
-        backgroundImage: 'linear-gradient(45deg, #134911, #15b436, #2483bd)'
+        backgroundImage: 'linear-gradient(45deg, #134911, #15b436, #2483bd)',
+        pointerEvents: 'auto',
     }
 })
 
 function Welcome() {
 
     const classes = useStyles();
-    
+
 
     return (
-        <div className="main">
-            <header className="main-header">
-                <div className='inner'>
-                    <div className={classes.container}>
-                        <Button className={`${classes.btn} ${classes.btn1}`} >get started</Button>
-                    </div>
+        <header className="main-header">
+            <div className='inner'>
+
+                <div className='text_container'>
+                    <p className='text'>Find eVery </p>
                 </div>
-            </header>
-        </div>
+
+                <div className={classes.container}>
+                    <Button className={`${classes.btn} ${classes.btn1}`} >Get Started</Button>
+                </div>
+                
+            </div>
+        </header>
 
     );
 }
