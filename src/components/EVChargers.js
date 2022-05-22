@@ -152,9 +152,10 @@ function EVChargers() {
 
     }, []);
 
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=500&countrycode=US');
-    //renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US');
-    //renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000');
+    markerCounter = 0;
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US');
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=CA');
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=3000');
 
     return (
 
@@ -291,8 +292,7 @@ async function renderChargers(link) {
 
     let charger = await getChargers(link);
 
-    console.log("startttttttttttttttttttttttttttttttttttttttttt");
-
+    console.log("starttttttt = " + charger.length);
 
 
     charger.forEach(charger => {
@@ -411,12 +411,17 @@ async function renderChargers(link) {
             var latitude = addressInfo.Latitude;
             var longitude = addressInfo.Longitude;
 
+            var key = [];
+
+            if (latitude != undefined && longitude != undefined) {
+                key = [latitude, longitude];
+            }
 
 
             var marker = {
                 type: 'Feature',
                 properties: {
-                    description: markerCounter.toString()
+                    description: key.toString()
                 },
                 geometry: {
                     type: 'Point',
@@ -442,16 +447,16 @@ async function renderChargers(link) {
             powerKW, isFastChargeCapable, actualLevel, currentType, points];
 
 
-        markerMap.set(markerCounter.toString(), chargerInfo);
+        markerMap.set(key.toString(), chargerInfo);
 
         markerCounter++;
 
     });
 
 
+
     const mySource = mapRef.current.getMap().getSource('points');
     mySource.setData(geojson);
-
 
 }
 

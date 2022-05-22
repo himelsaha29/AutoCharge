@@ -1,5 +1,5 @@
 .main {
-    text-align: center;
+    background-color: #040c04;
 }
 
 
@@ -19,6 +19,12 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
+    background-image: url("./covers3.png");
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;
+    height: auto;
+    width: auto;
 }
 
 @keyframes App-logo-spin {
