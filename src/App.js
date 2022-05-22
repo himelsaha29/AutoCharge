@@ -5,8 +5,11 @@ import Particles from './components/Particles';
 
 function App() {
   return (
-    <div className='App-header'>
+    <div >
       <Particles />
+      <div className='main-header'>
+        <Welcome/>
+      </div>
     </div>
   );
 }

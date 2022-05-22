@@ -1,5 +1,5 @@
 .main {
-    background-color: #040c04;
+    background-color: #ffffff;
 }
 
 
@@ -11,7 +11,7 @@
 }
 
 .main-header {
-    background-color: #000000;
+    background-color: #040c04;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,6 +25,7 @@
     background-position: center center;
     height: auto;
     width: auto;
+    z-index: 1;
 }
 
 @keyframes App-logo-spin {
