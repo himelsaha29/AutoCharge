@@ -34,7 +34,7 @@ const useStyles = makeStyles({
         color: '#fff',
         backgroundSize: '200%',
         pointerEvents: 'auto',
-        fontSize: '80%',
+        fontSize: '1.31vmax',
         fontFamily: "Outfit",
         transition: '0.4s',
         '&:hover': {
@@ -55,25 +55,17 @@ function Welcome() {
     return (
         <header className="main-header">
 
-
-
-
             <div className='inner'>
                 <p className='header'>AUTO<em>CHARGE</em></p>
-
                 <div className='textnbtn'>
                     <div className='text_container'>
                         <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
                     </div>
-
                     <div className={classes.container}>
                         <Button className={`${classes.btn} ${classes.btn1}`} >Get Started</Button>
                     </div>
-
                 </div>
-
             </div>
-
 
         </header>
 

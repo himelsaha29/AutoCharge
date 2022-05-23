@@ -5,13 +5,13 @@ import Particles from './components/Particles';
 
 function App() {
   return (
-    // <div className='App-header'>
-    //   <Particles />
-    //   <div className='outer'>
-    //     <Welcome/>
-    //   </div>
-    // </div>
-    <EVChargers/>
+    <div className='App-header'>
+      <Particles />
+      <div className='outer'>
+        <Welcome/>
+      </div>
+    </div>
+    // <EVChargers/>
   );
 }
 
