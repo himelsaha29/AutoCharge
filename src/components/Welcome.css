@@ -55,18 +55,21 @@
 .inner{
     position: relative;
     flex-direction: column;
+    justify-content: flex-end;
     display : flex;
     flex: 1;
     align-items: left;
-    margin-top: 45vh;
-    margin-left: -67vw;
+    height: 100%;
+    margin-top: 0vh;
+    margin-left: -47vw;
     pointer-events:none;
     text-align: left;
+    /* border:1px solid white; */
 }
 
 .text{
     position: relative;
-    font-size: 3vw;
+    font-size: 5vw;
     font-family: 'Outfit', sans-serif;
 }
 
@@ -74,7 +77,10 @@
     text-align: left;
     align-self: flex-start;
     align-items: left;
-    margin-bottom: 10%;
+    padding-bottom: 5%;
+    /* margin-bottom: 2%;
+    margin-top: 40%; */
+    /* margin-top: 45vh; */
     
 }
 
@@ -86,7 +92,14 @@
     position: absolute;
     font-family: 'montserrat_light_alt1light', sans-serif;
     top:  0;
-    left: 1%;
+    color: #32fc75;
+    padding-bottom: 10%;
+}
+
+.textnbtn{
+    /* margin-bottom: -22vh; */
+    bottom: 0%;
+    /* margin-bottom: -45%; */
 }
 
 

@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         top: '50%',
         transform: 'translate(-50%, -50%)',
         textAlign: 'left',
-         
+
 
     },
     btn: {
@@ -55,19 +55,23 @@ function Welcome() {
     return (
         <header className="main-header">
 
-            <p className='header'>AUTO<em>CHARGE</em></p>
+
 
 
             <div className='inner'>
+                <p className='header'>AUTO<em>CHARGE</em></p>
 
-                <div className='text_container'>
-                    <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
+                <div className='textnbtn'>
+                    <div className='text_container'>
+                        <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
+                    </div>
+
+                    <div className={classes.container}>
+                        <Button className={`${classes.btn} ${classes.btn1}`} >Get Started</Button>
+                    </div>
+
                 </div>
 
-                <div className={classes.container}>
-                    <Button className={`${classes.btn} ${classes.btn1}`} >Get Started</Button>
-                </div>
-                
             </div>
 
 
