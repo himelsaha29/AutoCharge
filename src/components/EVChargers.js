@@ -65,6 +65,16 @@ var mapRef = null;
 var markerCounter = 0;
 var markerMap = new Map();
 
+// Abort signal when done
+const controller1 = new AbortController();
+const signal1 = controller1.signal;
+
+const controller2 = new AbortController();
+const signal2 = controller2.signal;
+
+const controller3 = new AbortController();
+const signal3 = controller3.signal;
+
 
 var geojson = {
     "type": "FeatureCollection",
@@ -127,35 +137,28 @@ function EVChargers() {
                 });
 
                 mapRef.current.getMap().on('click', 'pointsSymbol', (e) => {
-
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-
                     toggleModal();
-
                     populateChargerPopUpInfo(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
-
                 });
-
 
                 mapRef.current.getMap().on('mouseenter', 'pointsSymbol', () => {
                     mapRef.current.getMap().getCanvas().style.cursor = 'pointer';
                 });
-
 
                 mapRef.current.getMap().on('mouseleave', 'pointsSymbol', () => {
                     mapRef.current.getMap().getCanvas().style.cursor = '';
                 });
             }
         );
-
-        ////
-
     }, []);
 
     markerCounter = 0;
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US');
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=CA');
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=3000');
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US', signal1);
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=CA', signal2);
+    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=5000', signal3);
+
+    // abort all connections after 10 seconds
+    setTimeout(abortConnection, 10000);
 
     return (
 
@@ -277,20 +280,33 @@ function EVChargers() {
 }
 
 
-async function getChargers(link) {
+async function getChargers(link, sig) {
     let url = link
 
     try {
-        let res = await fetch(url);
+        var res = await fetch(url, {
+            method: 'get',
+            signal: sig,
+        })
+        .then(async function(response) {
+            console.log(`Fetch complete. (Not aborted)`);
+            return await response;
+        })
+        .catch(function(err) {
+            console.error(` Err: ${err}`);
+        });
+
+
         return await res.json();
     } catch (error) {
+        console.log(error);
         console.log("Server error, please try again later");
     }
 }
 
-async function renderChargers(link) {
+async function renderChargers(link, sig) {
 
-    let charger = await getChargers(link);
+    let charger = await getChargers(link, sig);
 
     console.log("starttttttt = " + charger.length);
 
@@ -514,6 +530,13 @@ function checkConnection(formalName, actualConnectionName) {
         conn = "N/A";
     }
     return conn;
+}
+
+function abortConnection() {
+    console.log('Now aborting connection');
+    controller1.abort();
+    controller2.abort();
+    controller3.abort();
 }
 
 export default EVChargers;
