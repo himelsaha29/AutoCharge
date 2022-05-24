@@ -172,7 +172,7 @@ function EVChargers() {
                         latitude: 45,
                         zoom: 2.5
                     }}
-                    mapboxAccessToken="pk.eyJ1IjoiaGltZWxzYWhhMjkiLCJhIjoiY2twcTVreDQ2MTZ1ejJ2bXdka3FkZGU3YyJ9.9o1-3a4vZ7lagQhlWzTg-A"
+                    mapboxAccessToken={process.env.REACT_APP_MAPS_API}
                     mapStyle="mapbox://styles/himelsaha29/cl2rcfulj000315lncutyy62e"
                 >
 
@@ -512,6 +512,12 @@ function checkAddress(addressLine1, addressLine2) {
     if (address == "") {
         address = "N/A";
     }
+
+    if (address.length > 40 && address.includes(',')) {
+        let index = address.lastIndexOf(',', 40);
+        address = address.substring(0, index);
+    }
+
     return address;
 }
 
