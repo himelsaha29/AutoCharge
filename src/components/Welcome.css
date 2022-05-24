@@ -24,11 +24,13 @@
 
 .main-header {
     position: relative;
+    left: 0%;
     pointer-events:none;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: left;
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
@@ -54,6 +56,7 @@
 
 .inner{
     position: relative;
+    /* left: 5%; */
     flex-direction: column;
     justify-content: flex-end;
     display : flex;
@@ -61,23 +64,28 @@
     align-items: left;
     height: 100%;
     margin-top: 0vh;
-    margin-left: -47vw;
+    margin-left: 0vw;
     pointer-events:none;
     text-align: left;
-    /* border:1px solid white; */
+    border:1px solid white;
 }
 
 .text{
-    position: relative;
     font-size: 5vmax;
     font-family: 'Outfit', sans-serif;
+    border:1px solid red;
 }
 
 .text_container{
+    display: flex;
     text-align: left;
-    align-self: flex-start;
+    margin-bottom: 0%;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: left;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
+    height: auto;
+    border:3px solid white;
     /* margin-bottom: 2%;
     margin-top: 40%; */
     /* margin-top: 45vh; */
@@ -100,7 +108,21 @@
 .textnbtn{
     /* margin-bottom: -22vh; */
     bottom: 0%;
+    border:1px solid blue;
     /* margin-bottom: -45%; */
 }
 
+.btn{
+    /* margin-bottom: -22vh; */
+    padding-top: 0%;
+    padding-bottom: 10%;
+    /* margin-bottom: -45%; */
+}
+
+
+.aux{
+    height: 100%;
+    width: 100%;
+    border: 3px solid orange;
+}
 
