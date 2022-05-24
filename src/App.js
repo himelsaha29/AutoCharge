@@ -1,16 +1,16 @@
 import './App.css';
-import Welcome from './components/Welcome';
 import EVChargers from './components/EVChargers';
-import Particles from './components/Particles';
+import Landing from './components/Landing';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 function App() {
   return (
-    <div className='App-header'>
-      <Particles />
-      <div className='outer'>
-        <Welcome/>
-      </div>
-    </div>
+
+    <Router>
+      <Route path="/" exact component={Landing}/>
+      <Route path="/chargermap" exact component={EVChargers}/>
+    </Router>
+    
     // <EVChargers/>
   );
 }

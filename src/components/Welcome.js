@@ -1,17 +1,11 @@
 import * as React from 'react';
 import './Welcome.css';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline } from '@mui/material';
-import { Buttons } from './';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
-const theme = createMuiTheme({
-    palette: {
-        type: "dark"
-    }
-})
+
+
 
 const useStyles = makeStyles({
     container: {
@@ -51,22 +45,28 @@ function Welcome() {
 
     const classes = useStyles();
 
+    const history = useHistory();
+
+    const goToMap = () => {
+        history.push("/chargermap");
+    }
+  
 
     return (
         <header className="main-header">
-            
-                <div className='inner'>
-                    <p className='header'>AUTO<em>CHARGE</em></p>
-                    <div className='textnbtn'>
-                        <div className='text_container'>
-                            <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
-                        </div>
-                        <div className='btn'>
-                            <Button className={`${classes.btn} ${classes.btn1}`} >Get Started</Button>
-                        </div>
+
+            <div className='inner'>
+                <p className='header'>AUTO<em>CHARGE</em></p>
+                <div className='textnbtn'>
+                    <div className='text_container'>
+                        <p className='text'>Find<span className='green'> eVe</span>ry <br></br> <em><u>charger</u> </em> near you </p>
+                    </div>
+                    <div className='btn'>
+                        <Button className={`${classes.btn} ${classes.btn1}`} onClick={goToMap}>Get Started</Button>
                     </div>
                 </div>
-            
+            </div>
+
 
         </header>
 

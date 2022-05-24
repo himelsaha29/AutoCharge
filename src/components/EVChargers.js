@@ -488,6 +488,8 @@ function parseChargerInfo(info) {
             info[i] = "N/A";
         } else if (info[i].toString().toLowerCase().includes('not specified')) {
             info[i] = "Unknown";
+        } else if (info[i].toString().trim() === "") {
+            info[i] = "N/A";
         }
     }
 
