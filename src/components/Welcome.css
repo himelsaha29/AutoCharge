@@ -34,7 +34,7 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-    /* background-image: url("./covers3.png"); */
+    background-image: url("./news.png");
     background-size:     cover;
     background-repeat:   no-repeat;
     background-position: center center;

@@ -48,7 +48,7 @@ function Welcome() {
     const history = useHistory();
 
     const goToMap = () => {
-        history.push("/chargermap");
+        history.push("/EVChargers");
     }
   
 

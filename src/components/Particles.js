@@ -11,8 +11,6 @@ const ParticlesComponent = (props) => {
         return {
 
             particles: {
-
-
                 background: {
                     color: "#040c04", // this sets a background color for the canvas
                 },
@@ -92,7 +90,7 @@ const ParticlesComponent = (props) => {
                 events: {
                     onhover: {
                         enable: true,
-                        mode: "bubble"
+                        mode: "bubble",
                     },
                     onclick: {
                         enable: false,
@@ -128,11 +126,6 @@ const ParticlesComponent = (props) => {
             },
             retina_detect: true
 
-
-
-
-
-
         };
     }, []);
 
@@ -145,5 +138,7 @@ const ParticlesComponent = (props) => {
     // setting an id can be useful for identifying the right particles component, this is useful for multiple instances or reusable components
     return <Particles id={props.id} init={particlesInit} options={options} />;
 };
+
+
 
 export default ParticlesComponent;

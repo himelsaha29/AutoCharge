@@ -2,7 +2,6 @@ import Maps, { Marker } from 'react-map-gl';
 import './EVChargers.css';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import * as React from 'react';
-import icon from './marker.svg';
 import mapboxgl from 'mapbox-gl';
 import Modal from './Modal';
 import "./Modal.css";
@@ -11,9 +10,11 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@mui/material';
 import { Buttons } from './';
-
-
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { initializeAnalytics } from './firebase-config';
 import { makeStyles } from '@material-ui/core/styles';
+
+document.title = "AutoCharge - EVChargers";
 
 const useStyles = makeStyles({
     container: {
@@ -61,6 +62,13 @@ const theme = createMuiTheme({
     }
 })
 
+const analytics = initializeAnalytics;
+logEvent(analytics, 'EVCharger');
+
+
+//
+
+
 var mapRef = null;
 var markerCounter = 0;
 var markerMap = new Map();
@@ -100,14 +108,9 @@ function EVChargers() {
 
     if (modal) {
         document.body.classList.add('active-modal');
-        // window.onload = function() {
-        //     document.getElementById('loading').style.filter = 'blur(2px)';
-
-        // };
 
     } else {
         document.body.classList.remove('active-modal');
-        //document.getElementById('root').style.filter = 'blur(0px)';
     }
 
 
@@ -139,6 +142,7 @@ function EVChargers() {
                 mapRef.current.getMap().on('click', 'pointsSymbol', (e) => {
                     toggleModal();
                     populateChargerPopUpInfo(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
+                    logEvent(analytics, 'Charger Info');
                 });
 
                 mapRef.current.getMap().on('mouseenter', 'pointsSymbol', () => {
