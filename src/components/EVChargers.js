@@ -11,10 +11,13 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline } from '@mui/material';
 import { Buttons } from './';
 import { getAnalytics, logEvent } from "firebase/analytics";
-import { initializeAnalytics } from './firebase-config';
+import { useEffect } from 'react';
+import { id } from '../firebase-config';
+import { initializeAnalytics } from '../firebase';
+import ReactGA from 'react-ga';
 import { makeStyles } from '@material-ui/core/styles';
 
-document.title = "AutoCharge - EVChargers";
+document.title = "EVChargers";
 
 const useStyles = makeStyles({
     container: {
@@ -23,7 +26,6 @@ const useStyles = makeStyles({
         top: '50%',
         transform: 'translate(-0%, -50%)',
         borderWidth: 5,
-        borderColor: '#ff5f5f'
     },
     btn: {
         border: 'none',
@@ -91,6 +93,15 @@ var geojson = {
 
 function EVChargers() {
 
+    useEffect(() => {
+        ReactGA.initialize(id, {
+            debug: false,
+            siteSpeedSampleRate: 100
+        });
+        ReactGA.pageview("EVChargers");
+    
+    }, []);
+
     const classes = useStyles();
 
     const [chargerPopUpInfo, setChargerPopUpInfo] = React.useState([]);
@@ -115,6 +126,23 @@ function EVChargers() {
 
 
     mapRef = React.useRef();
+
+
+    const start = {
+        center: [80, 36],
+        zoom: 1,
+        pitch: 0,
+        bearing: 0
+    };
+
+    const end = {
+        // center: [74.5, 40],
+        // zoom: 2
+        center: [-84, 40],
+        zoom: 3,
+        bearing: 0,
+        pitch: 0
+    };
 
 
     const onMapLoad = React.useCallback(() => {
@@ -143,6 +171,10 @@ function EVChargers() {
                     toggleModal();
                     populateChargerPopUpInfo(parseChargerInfo(markerMap.get(e.features[0].properties.description)));
                     logEvent(analytics, 'Charger Info');
+                    ReactGA.event({
+                        category: 'ChargerInfo',
+                        action: 'Charger info shown'
+                    })
                 });
 
                 mapRef.current.getMap().on('mouseenter', 'pointsSymbol', () => {
@@ -154,15 +186,26 @@ function EVChargers() {
                 });
             }
         );
+
+        mapRef.current.getMap().flyTo({
+            ...end,
+            duration: 8000,
+            essential: true
+        });
+
+        mapRef.current.getMap().once('moveend', function(){
+            
+            markerCounter = 0;
+            renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US', signal1);
+            renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=CA', signal2);
+            renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=5000', signal3);
+
+            // abort all connections after 10 seconds
+            setTimeout(abortConnection, 10000);
+
+        });
+
     }, []);
-
-    markerCounter = 0;
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=US', signal1);
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=1000&countrycode=CA', signal2);
-    renderChargers('https://api.openchargemap.io/v3/poi/?key=' + process.env.CHARGER_API + '&maxresults=5000', signal3);
-
-    // abort all connections after 10 seconds
-    setTimeout(abortConnection, 10000);
 
     return (
 
@@ -172,15 +215,18 @@ function EVChargers() {
                     ref={mapRef}
                     onLoad={onMapLoad}
                     initialViewState={{
-                        longitude: -73,
-                        latitude: 45,
-                        zoom: 2.5
+                        longitude: 45,
+                        latitude: 41,
+                        zoom: 5,
+                        bearing: 180,
+                        pitch: 25
                     }}
                     mapboxAccessToken={process.env.REACT_APP_MAPS_API}
-                    mapStyle="mapbox://styles/himelsaha29/cl2rcfulj000315lncutyy62e"
+                    mapStyle="mapbox://styles/himelsaha29/cl605m6c2005714oc0lb9hjtm"
+                    projection="globe"
                 >
 
-                </Maps>;
+                </Maps>
             </div>
 
             {modal && (
@@ -292,13 +338,13 @@ async function getChargers(link, sig) {
             method: 'get',
             signal: sig,
         })
-        .then(async function(response) {
-            console.log(`Fetch complete. (Not aborted)`);
-            return await response;
-        })
-        .catch(function(err) {
-            console.error(` Err: ${err}`);
-        });
+            .then(async function (response) {
+                console.log("Fetched");
+                return await response;
+            })
+            .catch(function (err) {
+                console.error(` Err: ${err}`);
+            });
 
 
         return await res.json();
@@ -311,9 +357,6 @@ async function getChargers(link, sig) {
 async function renderChargers(link, sig) {
 
     let charger = await getChargers(link, sig);
-
-    console.log("starttttttt = " + charger.length);
-
 
     charger.forEach(charger => {
 
@@ -454,7 +497,7 @@ async function renderChargers(link, sig) {
 
 
         } catch (error) {
-            console.log('marker = ' + error);
+            console.log('Marker error = ' + error);
 
             // issue
         }
@@ -545,7 +588,7 @@ function checkConnection(formalName, actualConnectionName) {
 }
 
 function abortConnection() {
-    console.log('Now aborting connection');
+    console.log('Now aborting');
     controller1.abort();
     controller2.abort();
     controller3.abort();
